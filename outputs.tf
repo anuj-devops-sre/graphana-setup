@@ -9,3 +9,7 @@ output "grafana_url" {
 output "prometheus_url" {
   value = "http://${aws_instance.grafana.public_ip}:9090"
 }
+
+output "alertmanager_url" {
+  value = "http://${aws_instance.grafana.public_ip}:9093"
+}

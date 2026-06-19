@@ -66,3 +66,20 @@ resource "aws_security_group" "grafana_sg" {
     Name = "grafana-sg"
   }
 }
+
+resource "aws_ebs_volume" "prometheus_data" {
+  availability_zone = aws_instance.grafana.availability_zone
+  size              = 20
+  type              = "gp3"
+
+  tags = {
+    Name = "prometheus-data"
+  }
+}
+
+resource "aws_volume_attachment" "prometheus_ebs" {
+  device_name  = "/dev/xvdf"
+  volume_id    = aws_ebs_volume.prometheus_data.id
+  instance_id  = aws_instance.grafana.id
+  force_detach = true
+}
